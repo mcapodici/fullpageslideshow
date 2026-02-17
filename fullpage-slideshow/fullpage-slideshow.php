@@ -57,14 +57,14 @@ function fps_admin_enqueue($hook) {
         'fps-admin-css',
         FPS_PLUGIN_URL . 'admin/admin.css',
         [],
-        '1.0.0'
+        '1.1.0'
     );
 
     wp_enqueue_script(
         'fps-admin-js',
         FPS_PLUGIN_URL . 'admin/admin.js',
         ['jquery', 'jquery-ui-sortable'],
-        '1.0.0',
+        '1.1.0',
         true
     );
 

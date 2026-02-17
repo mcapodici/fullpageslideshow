@@ -2,10 +2,10 @@
     'use strict';
 
     var $list = $('#fps-image-list');
-    var $preview = $('#fps-preview');
     var $seconds = $('#fps-seconds');
     var $saveStatus = $('#fps-save-status');
-    var activePreviewUrl = '';
+    var $overlay = $('#fps-fullscreen-preview');
+    var $overlayInner = $overlay.find('.fps-fullscreen-inner');
 
     // Initialize with saved data
     $seconds.val(fpsAdmin.seconds);
@@ -35,12 +35,10 @@
         frame.on('select', function () {
             var attachments = frame.state().get('selection').toJSON();
             attachments.forEach(function (att) {
-                // Skip if already in list
                 if ($list.find('[data-id="' + att.id + '"]').length) {
                     return;
                 }
-                var url = att.url;
-                addImageRow(att.id, url, 50);
+                addImageRow(att.id, att.url, 50);
             });
         });
 
@@ -56,52 +54,34 @@
                 '<label class="fps-position-label">' +
                     'Y: <input type="number" class="fps-position-input" min="0" max="100" value="' + parseInt(positionY, 10) + '">%' +
                 '</label>' +
+                '<button type="button" class="fps-preview-btn button button-small">Preview</button>' +
                 '<button type="button" class="fps-remove" title="Remove">&times;</button>' +
             '</li>'
         );
         $list.append($row);
     }
 
-    // Preview on thumbnail click
-    $list.on('click', '.fps-thumb', function () {
+    // Fullscreen preview on Preview button click
+    $list.on('click', '.fps-preview-btn', function () {
         var $row = $(this).closest('li');
         var url = $row.data('url');
         var posY = $row.find('.fps-position-input').val();
-        showPreview(url, posY);
-        activePreviewUrl = url;
+        $overlayInner.css({
+            'background-image': 'url(' + url + ')',
+            'background-position-y': posY + '%'
+        });
+        $overlay.show();
     });
 
-    // Live update preview when position changes
-    $list.on('input', '.fps-position-input', function () {
-        var $row = $(this).closest('li');
-        var url = $row.data('url');
-        if (url === activePreviewUrl) {
-            showPreview(url, $(this).val());
-        }
+    // Click overlay to close
+    $overlay.on('click', function () {
+        $overlay.hide();
     });
 
     // Remove image
     $list.on('click', '.fps-remove', function () {
-        var $row = $(this).closest('li');
-        if ($row.data('url') === activePreviewUrl) {
-            clearPreview();
-        }
-        $row.remove();
+        $(this).closest('li').remove();
     });
-
-    function showPreview(url, posY) {
-        $preview.css({
-            'background-image': 'url(' + url + ')',
-            'background-position-y': posY + '%'
-        });
-        $preview.find('.fps-preview-empty').hide();
-    }
-
-    function clearPreview() {
-        $preview.css({ 'background-image': 'none' });
-        $preview.find('.fps-preview-empty').show();
-        activePreviewUrl = '';
-    }
 
     // Save
     $('#fps-save').on('click', function () {

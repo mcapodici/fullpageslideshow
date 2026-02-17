@@ -1,24 +1,8 @@
-.fps-layout {
-    display: flex;
-    gap: 20px;
-    margin-top: 15px;
-}
-
-.fps-main {
-    flex: 1;
-    min-width: 0;
-}
-
-.fps-sidebar {
-    width: 350px;
-    flex-shrink: 0;
-}
-
 .fps-controls {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 15px;
+    margin: 15px 0;
     flex-wrap: wrap;
 }
 
@@ -101,6 +85,10 @@
     width: 55px;
 }
 
+.fps-image-list .fps-preview-btn {
+    flex-shrink: 0;
+}
+
 .fps-image-list .fps-remove {
     color: #b32d2e;
     cursor: pointer;
@@ -118,21 +106,21 @@
     border-radius: 3px;
 }
 
-/* Preview panel */
-.fps-preview {
+/* Fullscreen preview overlay */
+.fps-fullscreen-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 250px;
-    background-color: #1d2327;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    height: 100%;
+    z-index: 100000;
+    cursor: pointer;
 }
 
-.fps-preview-empty {
-    color: #999;
-    font-style: italic;
+.fps-fullscreen-preview .fps-fullscreen-inner {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
