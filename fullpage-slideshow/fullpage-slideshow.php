@@ -11,12 +11,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('FPS_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('FPS_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('FULLPAGE_SLIDESHOW_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('FULLPAGE_SLIDESHOW_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-register_activation_hook(__FILE__, 'fps_activate');
+register_activation_hook(__FILE__, 'fullpage_slideshow_activate');
 
-function fps_activate() {
+function fullpage_slideshow_activate() {
     if (get_option('fullpage_slideshow_images') === false) {
         update_option('fullpage_slideshow_images', '[]');
     }
@@ -26,26 +26,26 @@ function fps_activate() {
 }
 
 // Admin menu
-add_action('admin_menu', 'fps_admin_menu');
+add_action('admin_menu', 'fullpage_slideshow_admin_menu');
 
-function fps_admin_menu() {
+function fullpage_slideshow_admin_menu() {
     add_options_page(
         'Full Page Slideshow',
         'Full Page Slideshow',
         'manage_options',
         'fullpage-slideshow',
-        'fps_render_settings_page'
+        'fullpage_slideshow_render_settings_page'
     );
 }
 
-function fps_render_settings_page() {
-    require_once FPS_PLUGIN_DIR . 'admin/settings-page.php';
+function fullpage_slideshow_render_settings_page() {
+    require_once FULLPAGE_SLIDESHOW_PLUGIN_DIR . 'admin/settings-page.php';
 }
 
 // Admin assets
-add_action('admin_enqueue_scripts', 'fps_admin_enqueue');
+add_action('admin_enqueue_scripts', 'fullpage_slideshow_admin_enqueue');
 
-function fps_admin_enqueue($hook) {
+function fullpage_slideshow_admin_enqueue($hook) {
     if ($hook !== 'settings_page_fullpage-slideshow') {
         return;
     }
@@ -55,14 +55,14 @@ function fps_admin_enqueue($hook) {
 
     wp_enqueue_style(
         'fps-admin-css',
-        FPS_PLUGIN_URL . 'admin/admin.css',
+        FULLPAGE_SLIDESHOW_PLUGIN_URL . 'admin/admin.css',
         [],
         '1.1.0'
     );
 
     wp_enqueue_script(
         'fps-admin-js',
-        FPS_PLUGIN_URL . 'admin/admin.js',
+        FULLPAGE_SLIDESHOW_PLUGIN_URL . 'admin/admin.js',
         ['jquery', 'jquery-ui-sortable'],
         '1.1.0',
         true
@@ -77,16 +77,16 @@ function fps_admin_enqueue($hook) {
 }
 
 // AJAX save handler
-add_action('wp_ajax_fps_save_settings', 'fps_save_settings');
+add_action('wp_ajax_fps_save_settings', 'fullpage_slideshow_save_settings');
 
-function fps_save_settings() {
+function fullpage_slideshow_save_settings() {
     check_ajax_referer('fps_save_settings', 'nonce');
 
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized');
     }
 
-    $images = isset($_POST['images']) ? $_POST['images'] : [];
+    $images = isset($_POST['images']) ? map_deep(wp_unslash($_POST['images']), 'sanitize_text_field') : [];
     $seconds = isset($_POST['seconds']) ? intval($_POST['seconds']) : 2;
 
     // Sanitize images array
@@ -109,9 +109,9 @@ function fps_save_settings() {
 
 // Front-end: enqueue assets on every page (lightweight — only CSS + small JS)
 // The JS self-checks for the config and container div before doing anything.
-add_action('wp_enqueue_scripts', 'fps_front_enqueue');
+add_action('wp_enqueue_scripts', 'fullpage_slideshow_front_enqueue');
 
-function fps_front_enqueue() {
+function fullpage_slideshow_front_enqueue() {
     $images = json_decode(get_option('fullpage_slideshow_images', '[]'), true);
     if (empty($images)) {
         return;
@@ -119,14 +119,14 @@ function fps_front_enqueue() {
 
     wp_enqueue_style(
         'fps-slideshow-css',
-        FPS_PLUGIN_URL . 'public/slideshow.css',
+        FULLPAGE_SLIDESHOW_PLUGIN_URL . 'public/slideshow.css',
         [],
         '1.0.2'
     );
 
     wp_enqueue_script(
         'fps-slideshow-js',
-        FPS_PLUGIN_URL . 'public/slideshow.js',
+        FULLPAGE_SLIDESHOW_PLUGIN_URL . 'public/slideshow.js',
         [],
         '1.0.2',
         true
@@ -147,9 +147,9 @@ function fps_front_enqueue() {
 }
 
 // Shortcode — just outputs the container div
-add_shortcode('fullpage_slideshow', 'fps_shortcode');
+add_shortcode('fullpage_slideshow', 'fullpage_slideshow_shortcode');
 
-function fps_shortcode() {
+function fullpage_slideshow_shortcode() {
     $images = json_decode(get_option('fullpage_slideshow_images', '[]'), true);
     if (empty($images)) {
         return '';
