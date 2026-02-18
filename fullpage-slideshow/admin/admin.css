@@ -38,11 +38,24 @@
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 3px;
-    cursor: grab;
 }
 
-.fps-image-list li:active {
+.fps-drag-handle {
+    cursor: grab;
+    color: #999;
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px 2px;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.fps-drag-handle:active {
     cursor: grabbing;
+}
+
+.fps-drag-handle:hover {
+    color: #555;
 }
 
 .fps-image-list li.ui-sortable-helper {
@@ -60,7 +73,6 @@
     height: 45px;
     object-fit: cover;
     border-radius: 2px;
-    cursor: pointer;
     flex-shrink: 0;
 }
 

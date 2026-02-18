@@ -6,6 +6,7 @@
     var $saveStatus = $('#fps-save-status');
     var $overlay = $('#fps-fullscreen-preview');
     var $overlayInner = $overlay.find('.fps-fullscreen-inner');
+    var saveTimer = null;
 
     // Initialize with saved data
     $seconds.val(fpsAdmin.seconds);
@@ -19,8 +20,11 @@
     // Make list sortable
     $list.sortable({
         placeholder: 'ui-sortable-placeholder',
-        handle: '.fps-thumb',
-        tolerance: 'pointer'
+        handle: '.fps-drag-handle',
+        tolerance: 'pointer',
+        update: function () {
+            autosave();
+        }
     });
 
     // Add Images button
@@ -40,6 +44,7 @@
                 }
                 addImageRow(att.id, att.url, 50);
             });
+            autosave();
         });
 
         frame.open();
@@ -49,6 +54,7 @@
         var filename = url.split('/').pop();
         var $row = $(
             '<li data-id="' + id + '" data-url="' + escapeAttr(url) + '">' +
+                '<span class="fps-drag-handle" title="Drag to reorder">&#9776;</span>' +
                 '<img class="fps-thumb" src="' + escapeAttr(url) + '" alt="">' +
                 '<span class="fps-filename" title="' + escapeAttr(filename) + '">' + escapeHtml(filename) + '</span>' +
                 '<label class="fps-position-label">' +
@@ -81,10 +87,26 @@
     // Remove image
     $list.on('click', '.fps-remove', function () {
         $(this).closest('li').remove();
+        autosave();
     });
 
-    // Save
-    $('#fps-save').on('click', function () {
+    // Autosave on interval change
+    $seconds.on('change', function () {
+        autosave();
+    });
+
+    // Autosave on position Y change
+    $list.on('change', '.fps-position-input', function () {
+        autosave();
+    });
+
+    // Autosave with debounce
+    function autosave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(doSave, 300);
+    }
+
+    function doSave() {
         var images = [];
         $list.find('li').each(function () {
             images.push({
@@ -107,12 +129,12 @@
             } else {
                 $saveStatus.text('Error: ' + response.data);
             }
-            setTimeout(function () { $saveStatus.text(''); }, 3000);
+            setTimeout(function () { $saveStatus.text(''); }, 2000);
         }).fail(function () {
             $saveStatus.text('Save failed.');
             setTimeout(function () { $saveStatus.text(''); }, 3000);
         });
-    });
+    }
 
     function escapeAttr(str) {
         return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

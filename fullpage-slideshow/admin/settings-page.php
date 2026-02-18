@@ -12,11 +12,11 @@ if (!defined('ABSPATH')) {
             Interval (seconds):
             <input type="number" id="fps-seconds" min="1" max="60" value="2">
         </label>
-        <button type="button" id="fps-save" class="button button-primary">Save Settings</button>
         <span id="fps-save-status"></span>
     </div>
 
     <p class="description">Drag rows to reorder. Lower position % moves the visible area down.</p>
+    <p class="description">Use the shortcode <code>[fullpage_slideshow]</code> to display the slideshow on any page or post.</p>
 
     <ul id="fps-image-list" class="fps-image-list"></ul>
 
