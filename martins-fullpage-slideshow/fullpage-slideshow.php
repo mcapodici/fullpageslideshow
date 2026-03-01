@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Full Page Slideshow
+ * Plugin Name: Martin's Full Page Slideshow
  * Description: A full-page background slideshow with crossfade transitions. Configure images and positioning from Settings, output via [fullpage_slideshow] shortcode.
  * Version: 1.0.0
  * Author: Martin
@@ -30,10 +30,10 @@ add_action('admin_menu', 'fullpage_slideshow_admin_menu');
 
 function fullpage_slideshow_admin_menu() {
     add_options_page(
-        'Full Page Slideshow',
-        'Full Page Slideshow',
+        'Martin's Full Page Slideshow',
+        'Martin's Full Page Slideshow',
         'manage_options',
-        'fullpage-slideshow',
+        'martins-fullpage-slideshow',
         'fullpage_slideshow_render_settings_page'
     );
 }
@@ -46,7 +46,7 @@ function fullpage_slideshow_render_settings_page() {
 add_action('admin_enqueue_scripts', 'fullpage_slideshow_admin_enqueue');
 
 function fullpage_slideshow_admin_enqueue($hook) {
-    if ($hook !== 'settings_page_fullpage-slideshow') {
+    if ($hook !== 'settings_page_martins-fullpage-slideshow') {
         return;
     }
 
@@ -154,5 +154,5 @@ function fullpage_slideshow_shortcode() {
     if (empty($images)) {
         return '';
     }
-    return '<div class="fullpage-slideshow"></div>';
+    return '<div class="martins-fullpage-slideshow"></div>';
 }

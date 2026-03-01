@@ -1,4 +1,4 @@
-.fullpage-slideshow {
+.martins-fullpage-slideshow {
     position: fixed;
     top: 0;
     left: 0;
@@ -7,7 +7,7 @@
     z-index: -1;
 }
 
-.fullpage-slideshow .fps-inner {
+.martins-fullpage-slideshow .fps-inner {
     position: absolute;
     top: 0;
     left: 0;
@@ -20,6 +20,6 @@
     transition: opacity 1s ease-in-out;
 }
 
-.fullpage-slideshow .fps-inner.fps-active {
+.martins-fullpage-slideshow .fps-inner.fps-active {
     opacity: 1;
 }

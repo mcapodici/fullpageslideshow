@@ -1,4 +1,4 @@
-=== Full Page Slideshow ===
+=== Martin's Full Page Slideshow ===
 Contributors: Martin
 Tags: slideshow, background, fullpage, images
 Requires at least: 5.0
@@ -16,9 +16,9 @@ Use the `[fullpage_slideshow]` shortcode to display the slideshow on any page or
 
 == Installation ==
 
-1. Upload the `fullpage-slideshow` folder to `/wp-content/plugins/`
+1. Upload the `martins-fullpage-slideshow` folder to `/wp-content/plugins/`
 2. Activate the plugin through the Plugins menu
-3. Go to Settings > Full Page Slideshow to add images
+3. Go to Settings > Martin's Full Page Slideshow to add images
 4. Add the `[fullpage_slideshow]` shortcode to a page
 
 == Changelog ==

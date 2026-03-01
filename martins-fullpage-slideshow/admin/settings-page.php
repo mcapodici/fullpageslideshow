@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 }
 ?>
 <div class="wrap fps-settings">
-    <h1>Full Page Slideshow</h1>
+    <h1>Martin's Full Page Slideshow</h1>
 
     <div class="fps-controls">
         <button type="button" id="fps-add-images" class="button button-primary">Add Images</button>

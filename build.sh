@@ -1,6 +1,6 @@
 #!/bin/bash
-# Build script: creates fullpage-slideshow.zip for WordPress installation
-PLUGIN_NAME="fullpage-slideshow"
+# Build script: creates martins-fullpage-slideshow.zip for WordPress installation
+PLUGIN_NAME="martins-fullpage-slideshow"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
@@ -14,8 +14,8 @@ else
     # PowerShell fallback: build zip with forward-slash paths (required for Linux WordPress hosts)
     powershell -NoProfile -Command '
         Add-Type -Assembly System.IO.Compression.FileSystem
-        $pluginDir = "fullpage-slideshow"
-        $zipPath = [System.IO.Path]::GetFullPath("fullpage-slideshow.zip")
+        $pluginDir = "martins-fullpage-slideshow"
+        $zipPath = [System.IO.Path]::GetFullPath("martins-fullpage-slideshow.zip")
         if (Test-Path $zipPath) { Remove-Item $zipPath }
         $zip = [System.IO.Compression.ZipFile]::Open($zipPath, "Create")
         Get-ChildItem -Path $pluginDir -Recurse -File | ForEach-Object {
