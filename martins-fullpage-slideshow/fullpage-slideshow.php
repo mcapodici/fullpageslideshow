@@ -30,8 +30,8 @@ add_action('admin_menu', 'fullpage_slideshow_admin_menu');
 
 function fullpage_slideshow_admin_menu() {
     add_options_page(
-        'Martin's Full Page Slideshow',
-        'Martin's Full Page Slideshow',
+        'Martin\'s Full Page Slideshow',
+        'Martin\'s Full Page Slideshow',
         'manage_options',
         'martins-fullpage-slideshow',
         'fullpage_slideshow_render_settings_page'

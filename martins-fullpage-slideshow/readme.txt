@@ -1,5 +1,5 @@
 === Martin's Full Page Slideshow ===
-Contributors: Martin
+Contributors: mcapodici
 Tags: slideshow, background, fullpage, images
 Requires at least: 5.0
 Tested up to: 6.9
